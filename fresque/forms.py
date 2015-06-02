@@ -90,3 +90,11 @@ class NewPackage(Form):
     distributions = MultipleCheckboxesField("Distributions",
         validators=[ListMinLength(1)],
         widget=select_multi_checkbox)
+
+
+class RequestPullForm(Form):
+    ''' Form to create a request pull. '''
+    title = StringField(
+        'Title<span class="error">*</span>',
+        [validators.Required()]
+    )
