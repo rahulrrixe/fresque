@@ -1,0 +1,83 @@
+{% extends 'layout.html' %}
+{% import 'macros.html' as macros %}
+
+{% block content %}
+<h3>Request pull
+  <a href="{{ url_for('repo_base_view', name=repo)}}">
+    {{ repo }}
+  </a>
+
+  (<a href="{{ url_for('view_tree', repo=repo, identifier=commitid) }}"
+    >tree</a>)
+</h3>
+
+{% if form %}
+<section class="new_project">
+  <form action="#" method="post">
+    <table>
+      {{ macros.render_field_in_row(form.title) }}
+      <tr>
+        <td>To branch</td>
+        <td>
+          <select id="branch_select" name="branch_to">
+              <option>{{ branch_to }}</option>
+            {% for branch in branches |reverse %}
+              {% if branch != branch_to %}
+              <option>{{ branch }}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </td>
+      </tr>
+    </table>
+    <p class="buttons indent">
+      <input type="submit" class="submit positive button" value="Create">
+      {{ form.csrf_token }}
+      <a href="#">
+        <input type="button" value="Cancel" />
+      </a>
+    </p>
+  </form>
+</section>
+{% endif %}
+
+{% if diff %}
+{% for patch in diff %}
+<section class="commit_diff">
+<header>
+    <h3>{{ patch.new_file_path }}</h3>
+    <ul class="buttons">
+      <li class="addrem_bar">
+      {% if (patch.additions + patch.deletions) %}
+        <span style="width: {{ (100.0 * patch.additions / (patch.additions + patch.deletions))|round|int }}%">
+          {% if patch.additions > 0 %}+{{ patch.additions }}{% endif %}
+          {% if patch.deletions > 0 %}-{{ patch.deletions }}{% endif %}
+        </span>
+      {% endif %}
+      </li>
+      <li>
+        {% if pull_request %}
+        <a class="button view" href="#"
+        {% else %}
+        <a class="button view" href="#"
+        {% endif %}
+        {% if patch |hasattr('new_id') %}
+        title="View file as of {{ patch.new_id }}">View</a>
+        {% else %}
+        title="View file as of {{ patch.new_oid }}">View</a>
+        {% endif %}
+      </li>
+    </ul>
+</header>
+{% autoescape false %}
+    {{ patch | patch_to_diff | html_diff | format_loc(
+            filename=patch.new_file_path,
+            commit=patch.new_id,
+            prequest=pull_request,
+            index=loop.index)}}
+{% endautoescape %}
+{% endfor %}
+{% endif %}
+
+</section>
+{% endblock %}
