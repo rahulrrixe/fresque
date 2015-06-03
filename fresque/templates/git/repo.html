@@ -4,19 +4,36 @@
 
 {% block content %}
 
+
 {% if tree %}
-    <section class="tree_list">
-      <h3>Current tree</h3>
-      <ul>
+<h3>Current tree</h3>
+<div class="row">
+  <div class="col-sm-8">
+    <table id="gitweb" class="table table-striped table-bordered">
+      <thead>
+        <tr>
+          <th>Filename</th>
+          <th>Age</th>
+          <th>Last Commit</th>
+        </tr>
+      </thead>
+      <tbody>
         {% for entry in tree %}
-        <li class="{% if entry.filemode == 16384 %}folder{% else %}file{% endif %}">
+        <tr>
+          <td class="{% if entry.filemode == 16384 %}folder{% else %}file{% endif %}">
             <a href="#">
-                {{ entry.name }}
-                <span class="filehex" >{{ entry.hex|short }}</span>
+              {{ entry.name }}
             </a>
-        </li>
-        {% endfor %}
-      </ul>
-    </section>
-  {% endif %}
+          </td>
+          <td> An hour Ago </td>
+          <td> {{ entry.hex|short }} </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+
+    </table>
+  </div>
+  <div class="col-sm-4"></div>
+</div>
+{% endif %}
 {% endblock %}
