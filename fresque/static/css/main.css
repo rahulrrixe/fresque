@@ -41,3 +41,25 @@ form div.submit {
 .package-attributes {
     margin-top: 2em;
 }
+
+
+/** for pretty print **/
+pre.prettyprint { background: none; border: none !important; margin: -15px; padding: 0 !important; tab-size: 3; }
+pre.prettyprint ol.linenums { margin-left: 50px; }
+pre.prettyprint ol.linenums > li { list-style-type: decimal; background: #fff;  border-left: 1px solid #e5e5e5; padding-left: 10px; color: #aaa; }
+
+/** todc addon **/
+.breadcrumb { background: none; font-size: 12px; margin: 0; padding: 4px 7px; margin-top: 6px; }
+.breadcrumb li a { color: #777; }
+.breadcrumb li:after { content: ""; color: #aaa; font-family: Times; font-weight: normal; font-style: normal; text-decoration: inherit; -webkit-font-smoothing: antialiased; padding-right: 1px; }
+.breadcrumb li.active a { font-weight: bold; }
+
+.nav-tabs small.label { margin-top: -5px; padding: 1px 7px; margin-left: 2px; }
+
+@media screen and (min-width: 1200px)
+{
+    .container {
+        max-width: 940px;
+    }
+}
+

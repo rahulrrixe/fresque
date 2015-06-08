@@ -1,0 +1,49 @@
+{% extends 'layout.html' %}
+{% import 'macros.html' as macros %}
+
+{% block git %}
+    {% include "/git/git_layout.html" %}
+{% endblock %}
+
+{% block content%}
+<br>
+
+<div class="alert alert-info">
+    <strong>Add TODC Boostrap</strong>
+    <br>
+    <span class="text-muted">Birkir R Gudjonsson authored 5 years ago</span>
+    <a href="#"></span> <span style="color:#333;">latest commit effc1ca</span></a>
+</div>
+
+<p>Showing <strong> 2 changed files</strong> with <strong> 155 additions</strong> and <strong>2 deletions</strong></p>
+
+{% for i in range(2) %}
+    <div class="panel">
+        <div class="panel-heading">
+            media/js/jquery.min.js
+        </div>
+        <div class="panel-body" style="margin: -15px;">
+            <table class="table table-hover">
+                <tbody>
+            {% for k in range(2) %}
+                    <tr class="headerline">
+                        <td>...</td>
+                        <td>...</td>
+                        <td>import hello</td>
+                    </tr>
+                {% for m in range(2) %}
+                    <tr class="<?=$rowClass[$line->getType()];?>">
+                        <td>5</td>
+                        <td>6</td>
+                        <td><pre>this is code block</pre></td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endfor %}
+
+
+{% endblock %}

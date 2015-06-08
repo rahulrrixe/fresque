@@ -6,6 +6,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}Fedora Review Server{% endblock %}</title>
 
+        <!-- todc bootstrap -->
+        <link href="/static/css/todc-bootstrap.css" rel="stylesheet">
         <!-- Bootstrap -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
@@ -98,10 +100,12 @@
 
     <!-- Main content -->
 
-    <div class="container" id="content">
-    {% block content %}{% endblock %}
+    <div class="container">
+        {% block git  %} {% endblock %}
+        <div class="container" id="content">
+            {% block content %}{% endblock %}
+        </div>
     </div>
-
 
     <!-- Javascript -->
 

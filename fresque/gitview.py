@@ -15,6 +15,11 @@ from fresque import APP
 from fresque.lib.git import Repository
 
 
+@APP.route("/tree")
+def show_tree():
+    return flask.render_template('/git/commit.html',)
+
+
 @APP.route("/repo/<name>")
 def repo_base_view(name):
     path = os.path.join(

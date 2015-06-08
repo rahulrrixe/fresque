@@ -1,0 +1,32 @@
+{% extends 'layout.html' %} {% import 'macros.html' as macros %} {% block git %} {% include "/git/git_layout.html" %} {% endblock %} {% block content %}
+<ul class="breadcrumb">
+    <li><a href="#"><strong>reponame></strong></a></li>
+    <li class="active">hello</li>
+</ul>
+{% for i in range(3) %}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        17 May 2015
+    </div>
+    <div class="list-group">
+        <a href="#" class="list-group-item">
+            <strong>Storing jquery library in repository</strong>
+            <br> Birkir R Gudjonsson
+            <span class="text-muted"> authored 5 years ago </span>
+            <span class="glyphicon glyphicon-chevron-right"></span>
+        </a>
+    </div>
+</div>
+{% endfor %}
+<ul class="pager">
+    {% if 1 == 1 %}
+    <li class="disabled"><span>Newer</span></li>
+    {% else %}
+    <li><a href="#">Newer</a></li>
+    {% endif %} {% if 1 == 2 %}
+    <li><a href="#">Older</a></li>
+    {% else %}
+    <li class="disabled"><span>Older</span></li>
+    {% endif %}
+</ul>
+{% endblock %}
