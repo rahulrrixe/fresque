@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+{% import 'macros.html' as macros %}
+
+{% block git %}
+    {% include "/git/git_layout.html" %}
+{% endblock %}
+
+{% block content %}
+
+{% if tags %}
+  <ul>
+    {% for tag in tags %}
+    <li>
+      <a href="{{ url_for('.view_tree', repo=repo,
+                          identifier=tag.get_object().hex) }}">
+        {{ tag.shorthand }}
+      <span class="tagid">{{ tag.get_object().hex | short }}</span>
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p>
+    This project has not been tagged.
+  </p>
+  {% endif %}
+
+{% endblock %}

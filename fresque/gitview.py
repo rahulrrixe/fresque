@@ -219,3 +219,29 @@ def view_raw_file(repo, identifier, filename):
         headers['Content-Encoding'] = encoding
 
     return (data, 200, headers)
+
+
+@APP.route('/git/<repo>/tags/')
+@APP.route('/git/<repo>/tags')
+def view_tags(repo):
+    """ Presents all the tags of the project.
+    """
+    repo_obj = get_repo_by_name(repo)
+
+    if not repo:
+        flask.abort(404, 'Project not found')
+
+    tags = tags = [
+        repo_obj.lookup_reference(tag)
+        for tag in repo_obj.listall_references()
+        if 'refs/tags/' in tag
+    ]
+    return flask.render_template(
+        '/git/tags.html',
+        select='tags',
+        repo=repo,
+        tags=tags,
+        repo_obj=repo_obj,
+        branches=sorted(repo_obj.listall_branches()),
+        last_commit=repo_obj.get_last_commit(),
+    )
