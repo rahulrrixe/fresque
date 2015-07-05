@@ -116,6 +116,32 @@ def user_reviews(db, username):
     return Result({"reviews": reviews})
 
 
+def new_review(db, username):
+    ''' Create a new review for the specified package. '''
+    form = forms.ReviewFormSimplied()
+    result = Result({"form": form})
+
+    if method == "POST" and form.validate():
+        review = Review(
+            commit_id=form.commit_id.data,
+            date_start=form.date_start.data,
+            date_end=form.date_end.data,
+            srpm_filename=form.srpm_filename.data,
+            spec_filename=form.spec_filename.data
+        )
+        db.add(review)
+        try:
+            db.commit()
+        except SQLAlchemyError:
+            result.flash.append(("An error occurred while adding your "
+                "review, please contact an administrator.", "danger"))
+        else:
+            result.flash.append(("Review successfully created!", "success"))
+            result.redirect = ('package', {"name": pkg.name})
+
+    return result
+
+
 def create_git_repo(name, gitfolder):
     # Create a git project based on the package information.
     # get the path of the git repo
