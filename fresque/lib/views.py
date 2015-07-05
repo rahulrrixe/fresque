@@ -116,10 +116,11 @@ def user_reviews(db, username):
     return Result({"reviews": reviews})
 
 
-def new_review(db, username):
+def new_review(db, method, data, username, packagename):
     ''' Create a new review for the specified package. '''
-    form = forms.ReviewFormSimplied()
-    result = Result({"form": form})
+
+    form = forms.ReviewFormSimplied(data)
+    result = Result({"form": form, "packagename": packagename})
 
     if method == "POST" and form.validate():
         review = Review(
@@ -137,7 +138,7 @@ def new_review(db, username):
                 "review, please contact an administrator.", "danger"))
         else:
             result.flash.append(("Review successfully created!", "success"))
-            result.redirect = ('package', {"name": pkg.name})
+            result.redirect = ('view_reviews', {"repo": packagename})
 
     return result
 
