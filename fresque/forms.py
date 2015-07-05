@@ -100,13 +100,11 @@ class ReviewFormSimplied(Form):
         [wtforms.validators.Required()]
     )
     date_start = wtforms.DateField(
-        'Start Date', format="%m/%d/%y", validators=validators.optional()
+        'Start Date', format="%m/%d/%y", validators=[validators.optional()]
     )
-
-    date_start = wtforms.DateField(
-        'End Date', format="%m/%d/%y", validators=validators.optional()
+    date_end = wtforms.DateField(
+        'End Date', format="%m/%d/%y", validators=[validators.optional()]
     )
-
     srpm_filename = wtforms.TextField(
         'SRPM <span class="error">*</span>',
         [wtforms.validators.Required()]
@@ -115,4 +113,3 @@ class ReviewFormSimplied(Form):
         'SPEC <span class="error">*</span>',
         [wtforms.validators.Required()]
     )
-
