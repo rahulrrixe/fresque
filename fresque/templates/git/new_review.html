@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+div class="row">
+
+<form class="form-horizontal" role="form" method="post">
+    {% if form.errors %}
+    <div class="alert alert-danger">
+        There are errors in the form, please fix them.
+    </div>
+    {% endif %}
+    {{ render_field(form.commit_id, class_="form-control", autofocus=True) }}
+    {{ render_field(form.start_date, class_="form-control") }}
+    {{ render_field(form.end_date, class_="form-control") }}
+    {{ render_field(form.srpm_filename, class_="form-control") }}
+    {{ render_field(form.spec_filename, class_="form-control") }}
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-md-offset-3 col-sm-6 col-md-6 submit">
+            <button type="submit" class="btn btn-primary">Create</button>
+        </div>
+    </div>
+</form>
+
+</div>
+
+{% endblock %}
