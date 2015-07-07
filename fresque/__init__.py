@@ -12,8 +12,13 @@ import os
 import sys
 import flask
 import flask_fas_openid
+from flask_wtf.csrf import CsrfProtect
+
 
 APP = flask.Flask(__name__)
+
+# Enable CSRF Protection for teh form
+CsrfProtect(APP)
 
 APP.config.from_object('fresque.default_config')
 if 'FRESQUE_CONFIG' in os.environ: # pragma: no cover
@@ -56,4 +61,4 @@ def shutdown_session(exception=None): # pylint: disable=unused-argument
         flask.g.db.remove()
 
 
-from fresque import views, gitview, filters
+from fresque import views, gitview, filters, reviews
