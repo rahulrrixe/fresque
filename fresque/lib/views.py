@@ -120,7 +120,7 @@ def new_review(db, method, data, username, packagename):
     ''' Create a new review for the specified package. '''
 
     form = forms.ReviewFormSimplied(data)
-    result = Result({"form": form, "packagename": packagename})
+    result = Result({"form": form})
 
     if method == "POST" and form.validate():
         review = Review(
@@ -130,6 +130,7 @@ def new_review(db, method, data, username, packagename):
             srpm_filename=form.srpm_filename.data,
             spec_filename=form.spec_filename.data
         )
+        print(review)
         db.add(review)
         try:
             db.commit()
