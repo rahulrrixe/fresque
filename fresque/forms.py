@@ -9,10 +9,9 @@ from __future__ import absolute_import, unicode_literals, print_function
 import re
 
 import flask
-import wtforms
 from flask_wtf import Form
 from wtforms import (BooleanField, StringField, TextAreaField,
-    SelectMultipleField, validators)
+    SelectMultipleField, DateField, validators)
 from wtforms.widgets import html_params, HTMLString
 
 from fresque.lib.models import Package
@@ -95,21 +94,19 @@ class NewPackage(Form):
 
 class ReviewFormSimplied(Form):
     ''' Form to create or edit an review '''
-    commit_id = wtforms.TextField(
-        'Commit ID<span class="error">*</span>',
-        [wtforms.validators.Required()]
-    )
-    date_start = wtforms.DateField(
-        'Start Date', format="%m/%d/%y", validators=[validators.optional()]
-    )
-    date_end = wtforms.DateField(
-        'End Date', format="%m/%d/%y", validators=[validators.optional()]
-    )
-    srpm_filename = wtforms.TextField(
-        'SRPM <span class="error">*</span>',
-        [wtforms.validators.Required()]
-    )
-    spec_filename = wtforms.TextField(
-        'SPEC <span class="error">*</span>',
-        [wtforms.validators.Required()]
-    )
+    commit_id = StringField(
+        'Commit ID', filters=[strip],
+        validators=[validators.InputRequired()])
+    date_start = DateField(
+        'Start Date', format="%m/%d/%y",
+        validators=[validators.optional()])
+    date_end = DateField(
+        'End Date', format="%m/%d/%y",
+        validators=[validators.optional()])
+    srpm_filename = StringField(
+        'SRPM', filters=[strip],
+        validators=[validators.InputRequired()])
+    spec_filename = StringField(
+        'SPEC', filters=[strip],
+        validators=[validators.InputRequired()])
+
