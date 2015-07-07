@@ -1,18 +1,38 @@
 {% extends 'layout.html' %}
 
+{% macro render_field(field) %}
+    <div class="form-group {% if field.errors %}has-error{% endif %}">
+        <label for="{{ field.id }}" class="col-sm-2 col-md-3 control-label">
+            {{ field.label.text }}
+        </label>
+        <div class="col-sm-8 col-md-6">
+            {{ field(**kwargs) }}
+            {% if field.errors %}
+            <span class="help-block">
+                {% for error in field.errors %}
+                {{ error }}
+                {% endfor %}
+            </span>
+            {% endif %}
+        </div>
+    </div>
+{% endmacro %}
+
 {% block content %}
 
-div class="row">
+<div class="row">
 
 <form class="form-horizontal" role="form" method="post">
     {% if form.errors %}
     <div class="alert alert-danger">
+        {{form.errors}}
         There are errors in the form, please fix them.
+        }
     </div>
     {% endif %}
     {{ render_field(form.commit_id, class_="form-control", autofocus=True) }}
-    {{ render_field(form.start_date, class_="form-control") }}
-    {{ render_field(form.end_date, class_="form-control") }}
+    {{ render_field(form.date_start, class_="form-control") }}
+    {{ render_field(form.date_end, class_="form-control") }}
     {{ render_field(form.srpm_filename, class_="form-control") }}
     {{ render_field(form.spec_filename, class_="form-control") }}
     <div class="form-group">

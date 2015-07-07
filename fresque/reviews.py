@@ -45,4 +45,4 @@ def new_review(repo, username=None):
         flask.g.fas_user.username, repo)
 
     # check here the last activity of the reviews
-    return handle_result(result, 'new_review.html')
+    return handle_result(result, '/git/new_review.html')
