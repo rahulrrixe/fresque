@@ -33,7 +33,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(
 import fresque
 import fresque.lib
 import fresque.lib.models
-from pagure.lib.git import Repository
+from fresque.lib.git import Repository
 
 DB_PATH = 'sqlite:///:memory:'
 HERE = os.path.join(os.path.dirname(os.path.abspath(__file__)))
@@ -108,3 +108,108 @@ class Modeltests(unittest.TestCase):
         # Clear DB
         if os.path.exists(DB_PATH):
             os.unlink(DB_PATH)
+
+
+def create_projects_git(folder, bare=False):
+    """ Create some projects in the database. """
+    repos = []
+    for project in ['test.git', 'test2.git']:
+        repo_path = os.path.join(folder, project)
+        repos.append(repo_path)
+        if not os.path.exists(repo_path):
+            os.makedirs(repo_path)
+        pygit2.init_repository(repo_path, bare=bare)
+
+    return repos
+
+
+def add_content_git_repo(folder):
+    """ Create some content for the specified git repo. """
+    if not os.path.exists(folder):
+        os.makedirs(folder)
+    brepo = Repository(folder, bare=True)
+
+    newfolder = tempfile.mkdtemp(prefix='pagure-tests')
+    repo = Repository.clone_repository(folder, newfolder)
+
+    # Create a file in that git repo
+    with open(os.path.join(newfolder, 'sources'), 'w') as stream:
+        stream.write('foo\n bar')
+    repo.index.add('sources')
+    repo.index.write()
+
+    parents = []
+    commit = None
+    try:
+        commit = repo.revparse_single('HEAD')
+    except KeyError:
+        pass
+    if commit:
+        parents = [commit.oid.hex]
+
+    # Commits the files added
+    tree = repo.index.write_tree()
+    author = pygit2.Signature(
+        'Alice Author', 'alice@authors.tld')
+    committer = pygit2.Signature(
+        'Cecil Committer', 'cecil@committers.tld')
+    repo.create_commit(
+        'refs/heads/master',  # the name of the reference to update
+        author,
+        committer,
+        'Add sources file for testing',
+        # binary string representing the tree object ID
+        tree,
+        # list of binary strings representing parents of the new commit
+        parents,
+    )
+
+    parents = []
+    commit = None
+    try:
+        commit = repo.revparse_single('HEAD')
+    except KeyError:
+        pass
+    if commit:
+        parents = [commit.oid.hex]
+
+    subfolder = os.path.join('folder1', 'folder2')
+    if not os.path.exists(os.path.join(newfolder, subfolder)):
+        os.makedirs(os.path.join(newfolder, subfolder))
+    # Create a file in that git repo
+    with open(os.path.join(newfolder, subfolder, 'file'), 'w') as stream:
+        stream.write('foo\n bar\nbaz')
+    repo.index.add(os.path.join(subfolder, 'file'))
+    repo.index.write()
+
+    # Commits the files added
+    tree = repo.index.write_tree()
+    author = pygit2.Signature(
+        'Alice Author', 'alice@authors.tld')
+    committer = pygit2.Signature(
+        'Cecil Committer', 'cecil@committers.tld')
+    repo.create_commit(
+        'refs/heads/master',  # the name of the reference to update
+        author,
+        committer,
+        'Add some directory and a file for more testing',
+        # binary string representing the tree object ID
+        tree,
+        # list of binary strings representing parents of the new commit
+        parents
+    )
+
+    # Push to origin
+    ori_remote = repo.remotes[0]
+    master_ref = repo.lookup_reference('HEAD').resolve()
+    refname = '%s:%s' % (master_ref.name, master_ref.name)
+
+    ori_remote.push([refname])
+
+    shutil.rmtree(newfolder)
+
+
+if __name__ == '__main__':
+    SUITE = unittest.TestLoader().loadTestsFromTestCase(Modeltests)
+    unittest.TextTestRunner(verbosity=2).run(SUITE)
+
