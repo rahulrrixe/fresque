@@ -138,6 +138,47 @@ class Modeltests(unittest.TestCase):
             os.unlink(DB_PATH)
 
 
+# pylint: disable=R0903
+class FakeUser(object):
+    """ Fake user used to test the fedocallib library. """
+
+    def __init__(self, username='username'):
+        self.username = username
+        self.name = username
+        self.email = 'foo@bar.com'
+        self.dic = {}
+        self.dic['timezone'] = 'Europe/Paris'
+        self.login_time = datetime.utcnow()
+
+    def __getitem__(self, key):
+        return self.dic[key]
+
+
+def create_packages(session):
+    """ Create some projects in the database. """
+    item = fresque.lib.models.Package(
+        name="test 1",
+        summary="A sample project for the fresque test",
+        description="A python application combined with other recepies",
+        owner="Sam",
+        state="new",
+        submitted=datetime.now(),
+    )
+    session.add(item)
+
+    item = fresque.lib.models.Package(
+        name="test 2",
+        summary="A sample project for the fresque test",
+        description="A python application combined with other recepies",
+        owner="Altman",
+        state="new",
+        submitted=datetime.now()
+    )
+    session.add(item)
+
+    session.commit()
+
+
 def create_projects_git(folder, bare=False):
     """ Create some projects in the database. """
     repos = []
