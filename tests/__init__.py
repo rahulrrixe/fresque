@@ -1,31 +1,15 @@
 # -*- coding: utf-8 -*-
 
-"""
- (c) 2015 - Copyright Red Hat Inc
- Authors:
-   Pierre-Yves Chibon <pingou@pingoured.fr>
-"""
-
-__requires__ = ['SQLAlchemy >= 0.7']
-import pkg_resources
-
 import unittest
 import shutil
 import sys
 import tempfile
 import os
 
-from datetime import date
 from datetime import datetime
-from datetime import timedelta
-from functools import wraps
 
 import pygit2
-
 from contextlib import contextmanager
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.orm import scoped_session
 
 sys.path.insert(0, os.path.join(os.path.dirname(
     os.path.abspath(__file__)), '..'))
@@ -37,6 +21,7 @@ from fresque.lib.git import Repository
 
 DB_PATH = 'sqlite:///:memory:'
 HERE = os.path.join(os.path.dirname(os.path.abspath(__file__)))
+
 
 @contextmanager
 def user_set(APP, user):
