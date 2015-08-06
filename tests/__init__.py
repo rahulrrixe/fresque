@@ -80,6 +80,49 @@ class Modeltests(unittest.TestCase):
         )
         self.session.add(item)
 
+        item = fresque.lib.models.Distribution(
+            name="Fedora 21"
+        )
+        self.session.add(item)
+
+        item = fresque.lib.models.TargetDistribution(
+            package_id=1,
+            distribution_id=1
+        )
+        self.session.add(item)
+
+        item = fresque.lib.models.Review(
+            package_id=1,
+            commit_id="CDE10456378",
+            date_start=datetime.now(),
+            date_end=datetime.now(),
+            srpm_filename="spiderman_srpm",
+            spec_filename="spiderman_spec"
+        )
+        self.session.add(item)
+
+        item = fresque.lib.models.Reviewer(
+            review_id=1,
+            reviewer_name="Rahul"
+        )
+        self.session.add(item)
+
+        item = fresque.lib.models.Watcher(
+            package_id=1,
+            watcher_name="Rahul"
+        )
+        self.session.add(item)
+
+        item = fresque.lib.models.Comment(
+            review_id=1,
+            author="Stan",
+            date=datetime.now(),
+            line_number=1,
+            # relevant: has the comment been replied to?
+            relevant=True
+        )
+        self.session.add(item)
+
         self.session.commit()
 
     # pylint: disable=C0103
@@ -114,7 +157,7 @@ def add_content_git_repo(folder):
         os.makedirs(folder)
     brepo = Repository(folder, bare=True)
 
-    newfolder = tempfile.mkdtemp(prefix='pagure-tests')
+    newfolder = tempfile.mkdtemp(prefix='fresque-tests')
     repo = Repository.clone_repository(folder, newfolder)
 
     # Create a file in that git repo
