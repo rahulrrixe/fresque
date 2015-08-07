@@ -88,7 +88,8 @@ class Modeltests(unittest.TestCase):
         self.session.add(item)
 
         item = fresque.lib.models.Distribution(
-            name="Fedora 21"
+            id="f23",
+            name="Fedora 23"
         )
         self.session.add(item)
 
