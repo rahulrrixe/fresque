@@ -88,10 +88,12 @@ def create_tables(config, debug=False):
     alembic.command.stamp(get_alembic_config(db_url), "head")
 
     # Add missing distributions
-    session = create_session(db_url, debug=debug)
+    # session = create_session(db_url, debug=debug)
+    session = scoped_session(sessionmaker(bind=engine))
     for d_id, d_name in config["DISTRIBUTIONS"].items():
         distro = session.query(models.Distribution).get(d_id)
         if distro:
             continue
         session.add(models.Distribution(id=d_id, name=d_name))
     session.commit()
+    return session
