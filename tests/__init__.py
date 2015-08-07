@@ -21,6 +21,13 @@ from fresque.lib.git import Repository
 
 DB_PATH = 'sqlite:///:memory:'
 HERE = os.path.join(os.path.dirname(os.path.abspath(__file__)))
+config = {
+    'SQLALCHEMY_DATABASE_URI': DB_PATH,
+    'DISTRIBUTIONS': {
+        "f21": "Fedora 21",
+        "f22": "Fedora 22",
+    }
+}
 
 
 @contextmanager
@@ -67,7 +74,7 @@ class Modeltests(unittest.TestCase):
                 shutil.rmtree(folder)
             os.mkdir(folder)
 
-        self.session = fresque.lib.database.create_session(DB_PATH)
+        self.session = fresque.lib.database.create_tables(config)
 
         # Create a couple of users
         item = fresque.lib.models.Package(
