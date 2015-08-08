@@ -165,7 +165,7 @@ class FakeUser(object):
 def create_packages(session):
     """ Create some projects in the database. """
     item = fresque.lib.models.Package(
-        name="test 1",
+        name="test1",
         summary="A sample project for the fresque test",
         description="A python application combined with other recepies",
         owner="Sam",
@@ -175,7 +175,7 @@ def create_packages(session):
     session.add(item)
 
     item = fresque.lib.models.Package(
-        name="test 2",
+        name="test2",
         summary="A sample project for the fresque test",
         description="A python application combined with other recepies",
         owner="Altman",
