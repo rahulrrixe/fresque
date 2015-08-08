@@ -37,7 +37,11 @@ class FresqueFlaskApptests(tests.Modeltests):
         self.assertEqual(output.status_code, 200)
         self.assertTrue('<h2>Recent activity</h2>' in output.data)
 
+    def test_packages(self):
         tests.create_packages(self.session)
+        output = self.app.get('/')
+        self.assertEqual(output.status_code, 200)
+        self.assertTrue('<a href="/packages/spiderman">spiderman</a>' in output.data)
 
 
 if __name__ == '__main__':
