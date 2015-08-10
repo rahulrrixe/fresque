@@ -68,7 +68,7 @@ class FresqueFlaskApptests(tests.Modeltests):
     def test_new_package(self):
         user = tests.FakeUser()
 
-        # with tests.user_set(fresque.APP, user)
+        # with tests.user_set(fresque.APP, user):
         #     output = self.app.get('/new')
         #     self.assertTrue('<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">'
         #         'username <span class="caret"></span></a>' in output.data)
